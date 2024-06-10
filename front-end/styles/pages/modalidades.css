@@ -1,0 +1,32 @@
+
+.modalities__block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: center;
+    padding: 0px
+
+    
+}
+.modalities__block li {
+    list-style: none;
+}
+.modalities__block li a{
+    text-decoration: none;
+    text-align: center;
+    color: var(--btn-color);
+    width: 140px;
+    height: 140px;
+}
+.modalities__block li a:hover {
+    color: rgb(0, 95, 0);
+}
+
+.modalities__block li a i{
+    font-size: 2em;
+    padding-top: .5em;
+}
+.modalities__block .card-title {
+    margin-bottom: 0px;
+}
+

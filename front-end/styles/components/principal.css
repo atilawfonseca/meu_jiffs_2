@@ -1,0 +1,9 @@
+main {
+    max-width: 900px;
+    margin: 0px auto;
+    width: 90vw;
+    margin-bottom: 3em;
+}
+main p {
+    text-align: justify;
+}
