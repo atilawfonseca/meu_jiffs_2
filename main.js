@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const bodyParse = require('body-parser');
 
 //DB_URL = mongodb://localhost:27017/db_jifs
 
@@ -11,8 +12,8 @@ const app = express();
 const PORTA = process.env.PORT || 4000;
 
 //
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
+app.use(bodyParse.urlencoded({extended: false}));
+app.use(bodyParse.json());
 
 app.use(express.static(path.join(__dirname, 'front-end')));
 

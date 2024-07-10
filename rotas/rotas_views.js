@@ -50,17 +50,14 @@ rotas.get('/cadastrar', async (req, res) => {
 
 rotas.post('/add', async (req, res) => {
     const coordenador = new Coordenador({
-        siape: req.body.siape_coordenador, 
+        siape: req.body.siape, 
         email: req.body.email,
         telefone: req.body.telefone,
         senha: req.body.password
     })
     
     try {
-        console.log(req.body.siape);
-        console.log(req.body.email);
-        console.log(req.body.telefone);
-        console.log(req.body.password);
+        await coordenador.save();
         req.session.message = {
             type:"success",
             message: "Coordenador cadastrado com sucesso!" 
