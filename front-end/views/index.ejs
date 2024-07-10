@@ -1,5 +1,12 @@
 <%- include('partials/header')  %>
 <main class="mt-5">
+    <% if (message) { %>
+        <div class="alert alert-dismissible fade show alert-<%= message.type  %>"
+            role="alert">
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong><%= message.message %></strong>
+        </div>
+        <% } %>
     <h2 class="pt-5">O que é o JIFs, etapa estadual?</h2>
     <p class="pt-3">
         Os Jogos dos Institutuos Federais (JIF) 
