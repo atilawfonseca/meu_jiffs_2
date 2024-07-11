@@ -8,6 +8,8 @@ const bodyParse = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+
+
 //DB_URL = mongodb://localhost:27017/db_jifs
 
 const app = express();
@@ -17,6 +19,7 @@ const PORTA = process.env.PORT || 4000;
 app.use(cors());
 app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({extended: false}));
+app.use(cookieParser());
 
 
 app.use(express.static(path.join(__dirname, 'front-end')));
@@ -36,8 +39,10 @@ app.use((req, res, next)=> {
 })
 
 
+
 //comunicacao com banco de dados
 //conexão com o db
+
 mongoose.connect(process.env.DB_URL);
 const db = mongoose.connection; 
 db.on("error", (error)=> {

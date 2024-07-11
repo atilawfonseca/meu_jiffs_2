@@ -2,6 +2,11 @@ const express = require('express');
 const rotas = express.Router();
 const Coordenador = require('../back-end/models/coordenadores');
 
+//CONTROLLS
+const Logar = require('../back-end/controllers/coordenadores/Logar');
+const Logado = require('../back-end/controllers/coordenadores/Logado');
+const Deslogar = require('../back-end/controllers/coordenadores/Deslogar');
+
 
 rotas.get('/', async (req, res) => {
     try {
@@ -38,7 +43,8 @@ rotas.get('/login', async (req, res) => {
 
 rotas.post('/logar', async (req, res) => {
     try {
-
+        console.log(req.body.coor_email);
+        console.log(req.body.senha);
         res.redirect('/painel')
     } catch (error) {
         
