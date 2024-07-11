@@ -5,15 +5,19 @@ const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParse = require('body-parser');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 //DB_URL = mongodb://localhost:27017/db_jifs
 
 const app = express();
 const PORTA = process.env.PORT || 4000;
 
-//
-app.use(bodyParse.urlencoded({extended: false}));
+//o cors está relacionado a segurança do uso de uma API
+app.use(cors());
 app.use(bodyParse.json());
+app.use(bodyParse.urlencoded({extended: false}));
+
 
 app.use(express.static(path.join(__dirname, 'front-end')));
 

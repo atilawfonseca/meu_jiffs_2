@@ -36,6 +36,28 @@ rotas.get('/login', async (req, res) => {
     }
 })
 
+rotas.post('/logar', async (req, res) => {
+    try {
+
+        res.redirect('/painel')
+    } catch (error) {
+        
+    }
+})
+
+//rotas privadas
+rotas.get('/painel', async (req, res) => {
+    
+    try {
+        res.render('Pages_privates/dashboard', {
+            title: 'Painel'
+        })
+        
+    } catch (error) {
+        
+    }
+})
+
 rotas.get('/cadastrar', async (req, res) => {
 
     try{
