@@ -42,12 +42,32 @@ rotas.get('/login', async (req, res) => {
 })
 
 rotas.post('/logar', async (req, res) => {
+    const email_coordenador = req.body.coor_email;
+    const senha_coordenador = req.body.senha; 
     try {
-        console.log(req.body.coor_email);
-        console.log(req.body.senha);
-        res.redirect('/painel')
+        //busca email na base de dados
+        const coordenador = await Coordenador.find({email:email_coordenador});
+        //recupera a senha do coordenador
+        const senha_bd_coordenador = coordenador.map((coor)=> {
+            return coor.senha; 
+        });
+        const nome_bd_coordenador = coordenador.map((coor) => {
+            return coor.email; 
+        })
+        if(senha_bd_coordenador == senha_coordenador) {
+            req.session.login = nome_bd_coordenador;
+            res.redirect('/painel')
+        }
+        else {
+            req.session.message = {
+                type:"danger",
+                message: "Senha e/ou usuário invalido!" 
+            }
+            console.log("Email não encontrado.");
+            res.redirect('/login');
+        }
     } catch (error) {
-        
+        console.log(error);
     }
 })
 
@@ -55,6 +75,10 @@ rotas.post('/logar', async (req, res) => {
 rotas.get('/painel', async (req, res) => {
     
     try {
+        req.session.message = {
+            type:"success",
+            message: "Usuário logado com sucesso!" 
+        }
         res.render('Pages_privates/dashboard', {
             title: 'Painel'
         })
