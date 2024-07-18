@@ -48,14 +48,15 @@ rotas.post('/logar', async (req, res) => {
         //busca email na base de dados
         const coordenador = await Coordenador.find({email:email_coordenador});
         //recupera a senha do coordenador
-        const senha_bd_coordenador = coordenador.map((coor)=> {
-            return coor.senha; 
-        });
-        const nome_bd_coordenador = coordenador.map((coor) => {
-            return coor.email; 
-        })
+        const senha_bd_coordenador = coordenador.map(coor => coor.senha);
+
         if(senha_bd_coordenador == senha_coordenador) {
-            req.session.login = nome_bd_coordenador;
+            //recuperando email para ser uma session
+            req.session.login = coordenador.map(coor => coor.email);
+            req.session.message = {
+                type:"success",
+                message: "Usuário logado com sucesso!" 
+            }
             res.redirect('/painel')
         }
         else {
@@ -75,10 +76,7 @@ rotas.post('/logar', async (req, res) => {
 rotas.get('/painel', async (req, res) => {
     
     try {
-        req.session.message = {
-            type:"success",
-            message: "Usuário logado com sucesso!" 
-        }
+        
         res.render('Pages_privates/dashboard', {
             title: 'Painel'
         })
@@ -102,6 +100,7 @@ rotas.get('/cadastrar', async (req, res) => {
 
 rotas.post('/add', async (req, res) => {
     const coordenador = new Coordenador({
+        nome: req.body.nome,
         siape: req.body.siape, 
         email: req.body.email,
         telefone: req.body.telefone,

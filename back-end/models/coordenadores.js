@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const coordSchema = new mongoose.Schema({
+    nome: {
+        type: String, 
+        required: true, 
+    },
     siape: {
         type: String, 
         required: true, 
