@@ -7,3 +7,7 @@ https://www.youtube.com/watch?v=rXWa9jtHu7g
 https://www.youtube.com/watch?v=qEBoZ8lJR3k
 
 ajustar página de cadastro para não aceitar dados duplicados
+
+entender melhor sobre mongoDB atlas - para quando a aplicação estiver
+em produção o banco de dados estar em nuvem. Então todas as requisições, 
+cadastros, vão estar em nuvem. 

@@ -1,3 +1,5 @@
 para ajudar a construir o mecanismo de login. Tutorial encontrado, aplicado
 no projeto, contudo é meio antigo. Se não der pra aproveitar, só excluir e desinstalar os pacotes;
 https://anaeljonas.medium.com/login-com-node-js-em-5-minutos-8b5598dacda2
+
+https://www.youtube.com/watch?v=qEBoZ8lJR3k

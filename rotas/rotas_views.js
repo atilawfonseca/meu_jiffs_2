@@ -52,10 +52,10 @@ rotas.post('/logar', async (req, res) => {
 
         if(senha_bd_coordenador == senha_coordenador) {
             //recuperando email para ser uma session
-            req.session.login = coordenador.map(coor => coor.email);
+            req.session.login = coordenador.map(coor => coor.nome);
             req.session.message = {
                 type:"success",
-                message: "Usuário logado com sucesso!" 
+                message: `Seja bem vindo, ${req.session.login}!` 
             }
             res.redirect('/painel')
         }
