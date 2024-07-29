@@ -1,6 +1,11 @@
 <%- include('partials/header')  %>
 <main class="mt-5 " >
     <h2 class="pt-5 mb-5">Cadastro da coordenação</h2>
+    <div id="messageCadastro">
+        <% if(message) { %>
+            <%= message %>
+            <% } %>
+    </div>
     <div class="card p-3">
         <form id="cadastro_coordenador" action="/add" method="post" >
             <div class="input-group mb-3">
@@ -10,7 +15,7 @@
                 <input type="text" id="siape_coordenador" name="siape" class="form-control" placeholder="Digite seu SIAPE" id="siape_coordenador" minlength="7" required>   
             </div>
             <div class="input-group mb-3">
-                <input type="text" id="email" name="email" class="form-control" placeholder="Email" id="email_coordenador" required>
+                <input type="text" id="email" name="email" class="form-control" placeholder="Email" id="email_coordenador" onblur="checkEmail()" required>
                 <span class="input-group-text" id="basic-addon2">@ifpa.edu.br</span>
             </div>
             <div class="input-group mb-3">
@@ -22,12 +27,41 @@
             <div class="input-group mb-3">
                 <input type="password" id="rpassword" name="rpassword" class="form-control" placeholder="Confirmar senha" required>
             </div>
-            <button type="submit" class="btn btn-green">Cadastrar</button>
+            <button id="submitCadastro" type="submit" class="btn btn-green">Cadastrar</button>
         </form>
 
     </div>
 </main>
 <script>
+    async function checkEmail(){
+        const inputEmail = document.getElementById('email').value;
+        const submit = document.getElementById('submitCadastro');
+        
+        try {
+            const response = await fetch('/checkEmail', {
+                method:'POST',
+                headers : {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({inputEmail})
+            });
 
+            const retorno = await response.json();
+            const messageDiv = document.getElementById('messageCadastro');
+                messageDiv.textContent = retorno.message;
+
+                if(retorno.message) {
+                    submit.disabled = true; 
+                }
+                else {
+                    submit.disabled = false;
+                }
+
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+    }
 </script>
 <%- include('partials/footer')  %>

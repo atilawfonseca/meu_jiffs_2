@@ -88,6 +88,7 @@ rotas.get('/painel', async (req, res) => {
 
 rotas.get('/cadastrar', async (req, res) => {
 
+
     try{
         res.render('cadastro', {
             title: 'cadastro'
@@ -98,9 +99,28 @@ rotas.get('/cadastrar', async (req, res) => {
     }
 })
 
+rotas.post('/checkEmail', async (req, res) => {
+
+    const email = req.body.inputEmail; 
+    
+    try {
+        const emailExists = await Coordenador.findOne({email:email});
+
+        const message = emailExists ? "Email existente":""
+        res.json({message:message, 
+            title:"Cadastrar"
+        })
+        
+        
+    } catch (error) {
+        
+    }
+})
+
 rotas.post('/add', async (req, res) => {
     const {nome, siape, email, telefone, password} = req.body; 
     
+
     
     const coordenador = new Coordenador({
         nome: req.body.nome,
