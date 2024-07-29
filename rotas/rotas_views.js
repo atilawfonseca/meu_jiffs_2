@@ -82,7 +82,7 @@ rotas.get('/painel', async (req, res) => {
         })
         
     } catch (error) {
-        
+        console.log(error);
     }
 })
 
@@ -99,6 +99,9 @@ rotas.get('/cadastrar', async (req, res) => {
 })
 
 rotas.post('/add', async (req, res) => {
+    const {nome, siape, email, telefone, password} = req.body; 
+    
+    
     const coordenador = new Coordenador({
         nome: req.body.nome,
         siape: req.body.siape, 
