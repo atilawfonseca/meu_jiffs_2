@@ -1,7 +1,7 @@
 const express = require('express');
 const rotas = express.Router();
 const Coordenador = require('../back-end/models/coordenadores');
-
+const bcryp = require('bcrypt');
 //CONTROLLS
 const Logar = require('../back-end/controllers/coordenadores/Logar');
 const Logado = require('../back-end/controllers/coordenadores/Logado');
@@ -42,17 +42,18 @@ rotas.get('/login', async (req, res) => {
 })
 
 rotas.post('/logar', async (req, res) => {
-    const email_coordenador = req.body.coor_email;
-    const senha_coordenador = req.body.senha; 
+    const {senha, coor_email} = req.body;
+
     try {
         //busca email na base de dados
-        const coordenador = await Coordenador.find({email:email_coordenador});
-        //recupera a senha do coordenador
-        const senha_bd_coordenador = coordenador.map(coor => coor.senha);
+        const coordenador = await Coordenador.findOne({email:coor_email});
 
-        if(senha_bd_coordenador == senha_coordenador) {
+        //checar password
+        const checkPassword = bcryp.compare(senha, coordenador.senha);
+        
+        if(checkPassword) {
             //recuperando email para ser uma session
-            req.session.login = coordenador.map(coor => coor.nome);
+            req.session.login = coordenador.nome;
             req.session.message = {
                 type:"success",
                 message: `Seja bem vindo, ${req.session.login}!` 
@@ -120,14 +121,15 @@ rotas.post('/checkEmail', async (req, res) => {
 rotas.post('/add', async (req, res) => {
     const {nome, siape, email, telefone, password} = req.body; 
     
-
+    const salt = await bcryp.genSalt(12);
+    const passHash = await bcryp.hash(password, salt);
     
     const coordenador = new Coordenador({
-        nome: req.body.nome,
-        siape: req.body.siape, 
-        email: req.body.email,
-        telefone: req.body.telefone,
-        senha: req.body.password
+        nome,
+        siape, 
+        email,
+        telefone,
+        senha: passHash
     })
     
     try {
