@@ -74,7 +74,7 @@ rotas.post('/logar', async (req, res) => {
 })
 
 //rotas privadas
-rotas.get('/painel', async (req, res) => {
+rotas.get('/painel/:id', checkToken, async (req, res) => {
     
     try {
         
@@ -86,6 +86,29 @@ rotas.get('/painel', async (req, res) => {
         console.log(error);
     }
 })
+
+function checkToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(" ")[1]
+
+    console.log("autorizacao para navegar no painel"+authHeader);
+    console.log("valor do token "+token);
+
+
+    if(!token) {
+        return res.status(401).json({msg: "acesso negado!"})
+    }
+    try {
+
+        const secret = process.env.SECRET; 
+        jwt.verify(token, secret);
+        next()
+        
+    } catch (error) {
+        res.status(400).json({msg: "Token invalido"})
+    }
+
+}
 
 rotas.get('/cadastrar', async (req, res) => {
 
