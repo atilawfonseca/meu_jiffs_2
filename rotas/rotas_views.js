@@ -2,6 +2,7 @@ const express = require('express');
 const rotas = express.Router();
 const Coordenador = require('../back-end/models/coordenadores');
 const bcryp = require('bcrypt');
+const jwt = require('jsonwebtoken');
 //CONTROLLS
 const Logar = require('../back-end/controllers/coordenadores/Logar');
 const Logado = require('../back-end/controllers/coordenadores/Logado');
@@ -56,7 +57,7 @@ rotas.post('/logar', async (req, res) => {
             const secret = process.env.SECRET; 
 
             const token = jwt.sign({
-                id: user._id, 
+                id: coordenador._id, 
             }, secret)
 
             //recuperando email para ser uma session
@@ -79,12 +80,18 @@ rotas.post('/logar', async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        req.session.message = {
+            type:"danger",
+            message: "Senha e/ou usuário invalido!" 
+        }
+        console.log("Email não encontrado.");
+        res.redirect('/login');
     }
 })
 
 //rotas privadas
-rotas.get('/painel/:id', checkToken, async (req, res) => {
-    
+rotas.get('/painel/', async (req, res) => {
+
     try {
         
         res.render('Pages_privates/dashboard', {
@@ -96,6 +103,7 @@ rotas.get('/painel/:id', checkToken, async (req, res) => {
     }
 })
 
+//como implementar para que o usuário navegue nas páginas privadas.
 function checkToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(" ")[1]
