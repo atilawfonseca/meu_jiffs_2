@@ -52,12 +52,20 @@ rotas.post('/logar', async (req, res) => {
         const checkPassword = bcryp.compare(senha, coordenador.senha);
         
         if(checkPassword) {
+
+            const secret = process.env.SECRET; 
+
+            const token = jwt.sign({
+                id: user._id, 
+            }, secret)
+
             //recuperando email para ser uma session
             req.session.login = coordenador.nome;
             req.session.message = {
                 type:"success",
                 message: `Seja bem vindo, ${req.session.login}!` 
             }
+            
             res.redirect('/painel')
         }
         else {
@@ -68,6 +76,7 @@ rotas.post('/logar', async (req, res) => {
             console.log("Email não encontrado.");
             res.redirect('/login');
         }
+
     } catch (error) {
         console.log(error);
     }
